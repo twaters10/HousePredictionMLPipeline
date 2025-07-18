@@ -5,7 +5,7 @@ from steps.clean_data import clean_data
 from steps.model_train import train_model
 from steps.evaluation import evaluate_model
 
-@pipelines
+# @pipelines
 def training_pipeline(data_path: str):
     """
     Pipeline for training a machine learning model.

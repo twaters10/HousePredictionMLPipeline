@@ -7,8 +7,7 @@ print("sys.path:")
 for p in sys.path:
     print(f"  - {p}")
 
-from pipelines.training_pipeline import training_pipeline
-from zenml import pipeline
+from pipeline.training_pipeline import training_pipeline
 
 if __name__ == "__main__":
     # Run Pipeline
