@@ -16,6 +16,7 @@ class IngestData:
     def get_data(self):
         """
         Reads data from the specified Data Path
+        
         Returns:
             df: dataframe containing the ingested data
         """
@@ -27,8 +28,10 @@ class IngestData:
 def ingest_data(data_path: str) -> pd.DataFrame:
     """
     Ingest data from a CSV file.
+    
     Args:
         data_path (str): Path to the CSV file.
+        
     Returns:
         pd.DataFrame: DataFrame containing the ingested data.
     """
