@@ -1,4 +1,3 @@
-from zenml import pipeline
 # Import necessary steps for the pipeline 
 from steps.ingest_data import ingest_data
 from steps.clean_data import clean_data
@@ -7,8 +6,6 @@ from steps.evaluation import evaluate_model
 from steps.config import ModelNameConfig
 
 
-# Setting enabling_cache to True for the pipeline allows ZenML to use the cache versioned of each step for quicker processing along as nothing changed.
-@pipeline(enable_cache=False)
 def training_pipeline(data_path: str):
     """
     Pipeline for training a machine learning model.

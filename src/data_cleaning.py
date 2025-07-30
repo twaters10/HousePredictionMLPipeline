@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from typing import Union
+from sklearn.preprocessing import LabelEncoder
 
 """ Notes:
 - This module defines strategies for data preprocessing and splitting.
@@ -28,28 +29,24 @@ class DataPreProcessStrategy(DataStrategy):
     def handle_data(self, data: pd.DataFrame) -> pd.DataFrame:
         """ Preprocess Data """
         try:
-            # Drop unnecessary columns
-            data = data.drop(
-                [
-                    "order_approved_at",
-                    "order_delivered_carrier_date",
-                    "order_delivered_customer_date",
-                    "order_estimated_delivery_date",
-                    "order_purchase_timestamp"
-                ],
-                axis=1)
-            
             # Impute missing values
-            data["product_weight_g"].fillna(data["product_weight_g"].median(), inplace=True)
-            data["product_length_cm"].fillna(data["product_length_cm"].median(), inplace=True)
-            data["product_height_cm"].fillna(data["product_height_cm"].median(), inplace=True)
-            data["product_width_cm"].fillna(data["product_width_cm"].median(), inplace=True)
-            data["review_comment_message"].fillna("No review", inplace=True)
+            data["Area"].fillna(data["Area"].median())
+            data["Bedrooms"].fillna(data["Bedrooms"].median())
+            data["Bathrooms"].fillna(data["Bathrooms"].median())
+            data["Floors"].fillna(data["Floors"].median())
+            data["YearBuilt"].fillna(round(data["YearBuilt"].median()))
             
-            # Select only numeric columns
-            data = data.select_dtypes(include=[np.number])
-            cols_to_drop = ["customer_zip_code_prefix", "order_item_id"]
-            data = data.drop(columns=cols_to_drop, axis=1)
+            # Create new features
+            data['bedroom_bathroom_ratio'] = data['Bedrooms'] / data['Bathrooms']
+            data['bedroom_floor_ratio'] = data['Bedrooms'] / data['Floors']
+            
+            # Label Encode categorical features
+            data['Location_Label_Encoded'] = LabelEncoder().fit_transform(data['Location'])
+            data['Condition_Label_Encoded'] = LabelEncoder().fit_transform(data['Condition'])
+            data['Garage_Label_Encoded'] = LabelEncoder().fit_transform(data['Garage'])
+            
+            # Drop original categorical columns
+            data.drop(['Location', 'Condition', 'Garage'], axis=1, inplace=True)
             return data
             
         except Exception as e:
@@ -60,8 +57,8 @@ class DataSplitStrategy(DataStrategy):
     """Concrete Strategy for splitting data into training and validation."""
     def handle_data(self, data: pd.DataFrame) -> Union[pd.DataFrame, pd.DataFrame]:
         try:
-            X = data.drop("review_score", axis=1)
-            y = data["review_score"]
+            X = data.drop("Price", axis=1)
+            y = data["Price"]
             # Split the data into training and validation sets
             X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2, random_state=42)
             return X_train, X_val, y_train, y_val
