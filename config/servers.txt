@@ -1,0 +1,5 @@
+Setting up MLflow on EC2 Instance: https://www.youtube.com/watch?v=J4a8zKVIwn0
+
+S3 Bucket location to save MLFlow Artifacts
+mlflow server -h 0.0.0.0 --default-artifact-root s3://mlflow-housepred
+export MLFLOW_TRACKING_URI = http://ec2-18-208-232-252.compute-1.amazonaws.com:5000/
