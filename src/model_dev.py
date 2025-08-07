@@ -2,7 +2,7 @@ import logging
 from abc import ABC, abstractmethod
 import numpy as np
 import pandas as pd
-from sklearn.linear_model import LinearRegression
+from sklearn.ensemble import RandomForestRegressor
 
 class Model(ABC):
     """ Abstract Class for defining a model interface. """
@@ -17,8 +17,8 @@ class Model(ABC):
         """
         pass
     
-class LinearRegressionModel(Model):
-    """ Linear Regression Model Implementation. """
+class RFRegressorModel(Model):
+    """ Random Forest Regression Model Implementation. """
     
     def train(self, X_train: pd.DataFrame, y_train: pd.Series, **kwargs):
         """Train the linear regression model.
@@ -32,10 +32,10 @@ class LinearRegressionModel(Model):
 
         """
         try:
-            reg = LinearRegression(**kwargs)
-            reg.fit(X_train, y_train)
-            logging.info("Linear Regression model trained successfully.")        
-            return reg
+            rfreg = RandomForestRegressor(**kwargs)
+            rfreg.fit(X_train, y_train)
+            logging.info("Random Forest model trained successfully.")        
+            return rfreg
         
         except Exception as e:
             logging.error(f"Error in training Linear Regression model: {e}")
