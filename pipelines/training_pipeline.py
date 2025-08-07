@@ -1,7 +1,7 @@
 # Import necessary steps for the pipeline 
 from steps.ingest_data import ingest_data
 from steps.clean_data import clean_data
-from steps.model_train import train_model
+from steps.model_train_old import train_model
 from steps.evaluation import evaluate_model
 from steps.config import ModelNameConfig
 
